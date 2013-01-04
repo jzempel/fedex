@@ -14,7 +14,7 @@ from setuptools import setup
 import fedex
 
 setup(
-    name="fedex",
+    name="fedex.py",
     version=fedex.__version__,
     url="http://github.com/jzempel/fedex",
     license=fedex.__license__,
