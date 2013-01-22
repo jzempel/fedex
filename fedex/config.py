@@ -45,10 +45,14 @@ class FedexConfiguration(object):
                 meter_number)
         self.wsdls = self.__get(parser, section, "wsdls", wsdls)
 
-        if self.wsdls is None:
+        if self.wsdls is None or wsdls == "beta":
             file_path = os.path.abspath(__file__)
             directory_path = os.path.dirname(file_path)
             wsdls_path = os.path.join(directory_path, "wsdls")
+
+            if wsdls == "beta":
+                wsdls_path = os.path.join(wsdls_path, "beta")
+
             self.wsdls = "file://{0}".format(wsdls_path)
 
         assert self.key

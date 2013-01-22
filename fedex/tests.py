@@ -28,10 +28,8 @@ logging.basicConfig()
 logging.getLogger("suds.client").setLevel(logging.DEBUG)
 file_path = os.path.abspath(__file__)
 directory_path = os.path.dirname(file_path)
-wsdl_path = os.path.join(directory_path, "wsdls", "beta")
-wsdls = "file://{0}".format(wsdl_path)
 file_name = os.path.join(directory_path, "tests.cfg")
-CONFIGURATION = FedexConfiguration(wsdls=wsdls, file_name=file_name)
+CONFIGURATION = FedexConfiguration(wsdls="beta", file_name=file_name)
 
 
 def set_from_address(address):
