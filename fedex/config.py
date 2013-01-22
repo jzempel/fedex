@@ -9,6 +9,8 @@
     :license: BSD, see LICENSE for more details.
 """
 
+from ConfigParser import NoOptionError, NoSectionError, SafeConfigParser
+from logging import getLogger
 import os
 
 
@@ -19,25 +21,58 @@ class FedexConfiguration(object):
         your application.
     :param username: FedEx account username.
     :param password: FedEx password.
-    :param wsdls: Default `None`. WSDL path URI. Use ``'beta'`` to use test
+    :param wsdls: Default `None`. WSDL path URI. Pass ``'beta'`` to use test
         server WSDLs.
+    :param file_name: Default `None`. Optional configuration file name.
+    :param section: Default ``'default'``. The configuration section to use.
     """
 
-    def __init__(self, key, password, account_number, meter_number,
-            wsdls=None):
-        self.key = key
-        self.password = password
-        self.account_number = account_number
-        self.meter_number = meter_number
+    def __init__(self, key=None, password=None, account_number=None,
+            meter_number=None, wsdls=None, file_name=None, section="default"):
+        self.logger = getLogger("fedex")
+        parser = SafeConfigParser()
 
-        if wsdls is None or wsdls == "beta":
+        if file_name:
+            parser.read([file_name])
+        else:
+            parser.read([os.path.expanduser("~/.fedex.cfg")])
+
+        self.key = self.__get(parser, section, "key", key)
+        self.password = self.__get(parser, section, "password", password)
+        self.account_number = self.__get(parser, section, "account_number",
+                account_number)
+        self.meter_number = self.__get(parser, section, "meter_number",
+                meter_number)
+        self.wsdls = self.__get(parser, section, "wsdls", wsdls)
+
+        if self.wsdls is None:
             file_path = os.path.abspath(__file__)
             directory_path = os.path.dirname(file_path)
             wsdls_path = os.path.join(directory_path, "wsdls")
-
-            if wsdls == "beta":
-                wsdls_path = os.path.join(wsdls_path, "beta")
-
             self.wsdls = "file://{0}".format(wsdls_path)
+
+        assert self.key
+        assert self.password
+        assert self.account_number
+        assert self.meter_number
+        assert self.wsdls
+
+    def __get(self, parser, section, name, default):
+        """Get a configuration value for the named section.
+
+        :param parser: The configuration parser.
+        :param section: The section for the given name.
+        :param name: The name of the value to retrieve.
+        """
+        if default:
+            vars = {name: default}
         else:
-            self.wsdls = wsdls
+            vars = None
+
+        try:
+            ret_val = parser.get(section, name, vars=vars)
+        except (NoSectionError, NoOptionError) as error:
+            self.logger.exception(error)
+            ret_val = None
+
+        return ret_val

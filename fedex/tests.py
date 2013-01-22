@@ -17,6 +17,7 @@ from datetime import datetime
 from tempfile import NamedTemporaryFile
 from unittest import TestCase
 import logging
+import os
 
 try:
     from PIL import Image
@@ -25,13 +26,12 @@ except ImportError:
 
 logging.basicConfig()
 logging.getLogger("suds.client").setLevel(logging.DEBUG)
-
-CONFIGURATION = FedexConfiguration(
-        key="tmEBTc5Z0yT4Knci",
-        password="peslHlm46f8IGj4IlRzSN2XSj",
-        account_number="510087160",
-        meter_number="118562647",
-        wsdls="beta")
+file_path = os.path.abspath(__file__)
+directory_path = os.path.dirname(file_path)
+wsdl_path = os.path.join(directory_path, "wsdls", "beta")
+wsdls = "file://{0}".format(wsdl_path)
+file_name = os.path.join(directory_path, "tests.cfg")
+CONFIGURATION = FedexConfiguration(wsdls=wsdls, file_name=file_name)
 
 
 def set_from_address(address):
@@ -87,7 +87,7 @@ def set_shipment(shipment, package):
     shipment.PackageCount = len(shipment.RequestedPackageLineItems)
     shipment.ShippingChargesPayment.PaymentType = "SENDER"
     shipment.ShippingChargesPayment.Payor.ResponsibleParty.AccountNumber =\
-            CONFIGURATION.account_number
+        CONFIGURATION.account_number
 
 
 def set_to_address(address):
@@ -189,7 +189,7 @@ class FedexTestCase(TestCase):
         result = service.get_shipment(shipment)
         print result
         tracking_id = result.CompletedShipmentDetail.\
-                CompletedPackageDetails[0].TrackingIds[0]
+            CompletedPackageDetails[0].TrackingIds[0]
         result = service.remove_shipment(tracking_id)
         print result
         # Tracking
