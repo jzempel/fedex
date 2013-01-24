@@ -9,6 +9,7 @@
     :license: BSD, see LICENSE for more details.
 """
 
+from logging import getLogger
 from suds.client import Client
 import os
 
@@ -26,7 +27,7 @@ class BaseService(object):
         name = "{0}Service_v{1:d}.wsdl".format(wsdl_name, wsdl_version)
         wsdl = os.path.join(configuration.wsdls, name)
         self.client = Client(wsdl)
-        self.logger = configuration.logger
+        self.logger = getLogger("fedex")
         credential = self.create("WebAuthenticationCredential")
         credential.Key = configuration.key
         credential.Password = configuration.password

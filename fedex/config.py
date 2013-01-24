@@ -10,7 +10,6 @@
 """
 
 from ConfigParser import NoOptionError, NoSectionError, SafeConfigParser
-from logging import getLogger
 import os
 
 
@@ -29,7 +28,6 @@ class FedexConfiguration(object):
 
     def __init__(self, key=None, password=None, account_number=None,
             meter_number=None, wsdls=None, file_name=None, section="default"):
-        self.logger = getLogger("fedex")
         parser = SafeConfigParser()
 
         if file_name:
@@ -61,7 +59,8 @@ class FedexConfiguration(object):
         assert self.meter_number
         assert self.wsdls
 
-    def __get(self, parser, section, name, default):
+    @staticmethod
+    def __get(parser, section, name, default):
         """Get a configuration value for the named section.
 
         :param parser: The configuration parser.
@@ -75,8 +74,7 @@ class FedexConfiguration(object):
 
         try:
             ret_val = parser.get(section, name, vars=vars)
-        except (NoSectionError, NoOptionError) as error:
-            self.logger.exception(error)
-            ret_val = None
+        except (NoSectionError, NoOptionError):
+            ret_val = default
 
         return ret_val
