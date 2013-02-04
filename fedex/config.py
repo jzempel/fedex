@@ -14,12 +14,25 @@ import os
 
 
 class FedexConfiguration(object):
-    """FedEx service configuration.
+    """FedEx service configuration. The service configuration may be provided
+    directly via parameter values, or it can be read from a configuration file.
+    If no parameters are given, the configuration will attempt to read from a
+    ``'fedex.cfg'`` file in the user's HOME directory. Alternately, a
+    configuration filename can be passed to the constructor.
 
-    :param integration_id: Unique ID, provided by FedEx, that represents
-        your application.
-    :param username: FedEx account username.
-    :param password: FedEx password.
+    Here is a sample configuration (by default the constructor reads from a
+    ``'default'`` section):
+
+        [default]
+        key = fedexpy
+        password = secret
+        account_number = 123456789
+        meter_number = 987654321
+
+    :param key: Default `None`. Unique identifier, assigned by FedEx.
+    :param password: Default `None`. FedEx password.
+    :param account_number: Default `None`. FedEx account number.
+    :param meter_number: Default `None`. FedEx meter number.
     :param wsdls: Default `None`. WSDL path URI. Pass ``'beta'`` to use test
         server WSDLs.
     :param file_name: Default `None`. Optional configuration file name.
