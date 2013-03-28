@@ -17,7 +17,7 @@ class FedexConfiguration(object):
     """FedEx service configuration. The service configuration may be provided
     directly via parameter values, or it can be read from a configuration file.
     If no parameters are given, the configuration will attempt to read from a
-    ``'fedex.cfg'`` file in the user's HOME directory. Alternately, a
+    ``'.fedex.cfg'`` file in the user's HOME directory. Alternately, a
     configuration filename can be passed to the constructor.
 
     Here is a sample configuration (by default the constructor reads from a
