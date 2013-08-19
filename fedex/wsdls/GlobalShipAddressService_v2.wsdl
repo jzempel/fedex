@@ -1,6 +1,6 @@
-<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:ns="http://fedex.com/ws/gsai/v1" xmlns:s1="http://schemas.xmlsoap.org/wsdl/soap/" targetNamespace="http://fedex.com/ws/gsai/v1" name="GlobalShipAddressServiceDefinitions">
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:ns="http://fedex.com/ws/gsai/v2" xmlns:s1="http://schemas.xmlsoap.org/wsdl/soap/" targetNamespace="http://fedex.com/ws/gsai/v2" name="GlobalShipAddressServiceDefinitions">
   <types>
-    <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://fedex.com/ws/gsai/v1">
+    <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://fedex.com/ws/gsai/v2">
       <xs:element name="SearchLocationsReply" type="ns:SearchLocationsReply"/>
       <xs:element name="SearchLocationsRequest" type="ns:SearchLocationsRequest"/>
       <xs:complexType name="Address">
@@ -38,6 +38,11 @@
               <xs:documentation>The two-letter code used to identify a country.</xs:documentation>
             </xs:annotation>
           </xs:element>
+          <xs:element name="CountryName" type="xs:string" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>The fully spelt out name of a country.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
           <xs:element name="Residential" type="xs:boolean" minOccurs="0">
             <xs:annotation>
               <xs:documentation>Indicates whether this address residential (as opposed to commercial).</xs:documentation>
@@ -65,6 +70,11 @@
           <xs:element name="MatchedAddress" type="ns:Address" minOccurs="0">
             <xs:annotation>
               <xs:documentation>Address as provided in the request.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="MatchedAddressGeographicCoordinates" type="xs:string" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>Specify the geographic co-ordinates for the matched address.</xs:documentation>
             </xs:annotation>
           </xs:element>
           <xs:element name="DistanceAndLocationDetails" type="ns:DistanceAndLocationDetail" minOccurs="0" maxOccurs="unbounded">
@@ -164,6 +174,11 @@
               <xs:documentation>Identifies the phone extension associated with this contact.</xs:documentation>
             </xs:annotation>
           </xs:element>
+          <xs:element name="TollFreePhoneNumber" type="xs:string" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>Identifies a toll free number, if any, associated with this contact.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
           <xs:element name="PagerNumber" type="xs:string" minOccurs="0">
             <xs:annotation>
               <xs:documentation>Identifies the pager number associated with this contact.</xs:documentation>
@@ -256,6 +271,7 @@
           <xs:enumeration value="FEDEX_HOME_DELIVERY_STATION"/>
           <xs:enumeration value="FEDEX_OFFICE"/>
           <xs:enumeration value="FEDEX_SELF_SERVICE_LOCATION"/>
+          <xs:enumeration value="FEDEX_SHIPSITE"/>
           <xs:enumeration value="FEDEX_SMART_POST_HUB"/>
         </xs:restriction>
       </xs:simpleType>
@@ -697,7 +713,7 @@
               <xs:documentation>Identifies a system or sub-system which performs an operation.</xs:documentation>
             </xs:annotation>
           </xs:element>
-          <xs:element name="Major" type="xs:int" fixed="1" minOccurs="1">
+          <xs:element name="Major" type="xs:int" fixed="2" minOccurs="1">
             <xs:annotation>
               <xs:documentation>Identifies the service business level.</xs:documentation>
             </xs:annotation>
@@ -731,7 +747,7 @@
   <binding name="GlobalShipAddressServiceSoapBinding" type="ns:GlobalShipAddressPortType">
     <s1:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
     <operation name="searchLocations">
-      <s1:operation soapAction="searchLocations" style="document"/>
+      <s1:operation soapAction="http://fedex.com/ws/gsai/v2/searchLocations" style="document"/>
       <input>
         <s1:body use="literal"/>
       </input>
@@ -742,7 +758,7 @@
   </binding>
   <service name="GlobalShipAddressService">
     <port name="GlobalShipAddressServicePort" binding="ns:GlobalShipAddressServiceSoapBinding">
-      <s1:address location="https://wsbeta.fedex.com:443/web-services/globalshipaddress"/>
+      <s1:address location="https://ws.fedex.com:443/web-services/globalshipaddress"/>
     </port>
   </service>
 </definitions>

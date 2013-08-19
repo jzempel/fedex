@@ -16,10 +16,10 @@ class ShipmentService(BaseService):
     """Shipment service.
 
     :param configuration: API configuration.
-    :param wsdl_version: Default ``12``.
+    :param wsdl_version: Default ``13``.
     """
 
-    def __init__(self, configuration, wsdl_version=12):
+    def __init__(self, configuration, wsdl_version=13):
         super(ShipmentService, self).__init__(configuration, "Ship",
                 wsdl_version, "ship")
 
@@ -68,7 +68,7 @@ class ShipmentService(BaseService):
         if deletion_control is None and "DeletionControl" not in kwargs:
             deletion_control = self.create_deletion_control()
             kwargs["DeletionControl"] = \
-                    deletion_control.DELETE_ALL_PACKAGES
+                deletion_control.DELETE_ALL_PACKAGES
 
         return self.call("deleteShipment", TrackingId=tracking_id,
                 **kwargs)

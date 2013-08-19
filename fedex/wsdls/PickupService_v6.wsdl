@@ -1,6 +1,6 @@
-<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:ns="http://fedex.com/ws/pickup/v5" xmlns:s1="http://schemas.xmlsoap.org/wsdl/soap/" targetNamespace="http://fedex.com/ws/pickup/v5" name="PickupServiceDefinitions">
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:ns="http://fedex.com/ws/pickup/v6" xmlns:s1="http://schemas.xmlsoap.org/wsdl/soap/" targetNamespace="http://fedex.com/ws/pickup/v6" name="PickupServiceDefinitions">
   <types>
-    <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://fedex.com/ws/pickup/v5">
+    <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://fedex.com/ws/pickup/v6">
       <xs:element name="CancelPickupReply" type="ns:CancelPickupReply"/>
       <xs:element name="CancelPickupRequest" type="ns:CancelPickupRequest"/>
       <xs:element name="CreatePickupReply" type="ns:CreatePickupReply"/>
@@ -40,6 +40,11 @@
           <xs:element name="CountryCode" type="xs:string" minOccurs="0">
             <xs:annotation>
               <xs:documentation>The two-letter code used to identify a country.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="CountryName" type="xs:string" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>The fully spelt out name of a country.</xs:documentation>
             </xs:annotation>
           </xs:element>
           <xs:element name="Residential" type="xs:boolean" minOccurs="0">
@@ -243,6 +248,16 @@
               <xs:documentation>For Express this is the descriptive data that is used for the recipient of the FedEx Letter containing the COD payment. For Ground this is the descriptive data for the party to receive the payment that prints the COD receipt.</xs:documentation>
             </xs:annotation>
           </xs:element>
+          <xs:element name="FinancialInstitutionContactAndAddress" type="ns:ContactAndAddress" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>When the FedEx COD payment type is not CASH, indicates the contact and address of the financial institution used to service the payment of the COD.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="RemitToName" type="xs:string" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>Specifies the name of person or company receiving the secured/unsecured funds payment</xs:documentation>
+            </xs:annotation>
+          </xs:element>
           <xs:element name="ReferenceIndicator" type="ns:CodReturnReferenceIndicatorType" minOccurs="0">
             <xs:annotation>
               <xs:documentation>Indicates which type of reference information to include on the COD return shipping label.</xs:documentation>
@@ -360,6 +375,11 @@
           <xs:element name="PhoneExtension" type="xs:string" minOccurs="0">
             <xs:annotation>
               <xs:documentation>Identifies the phone extension associated with this contact.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="TollFreePhoneNumber" type="xs:string" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>Identifies a toll free number, if any, associated with this contact.</xs:documentation>
             </xs:annotation>
           </xs:element>
           <xs:element name="PagerNumber" type="xs:string" minOccurs="0">
@@ -790,7 +810,6 @@
           <xs:element name="PurchaseOrderNumber" type="xs:string" minOccurs="0"/>
           <xs:element name="JustOneMore" type="xs:boolean" minOccurs="0"/>
           <xs:element name="SpecialServicesRequested" type="ns:ShipmentSpecialServicesRequested" minOccurs="0"/>
-          <xs:element name="FreightGuaranteeDetail" type="ns:FreightGuaranteeDetail" minOccurs="0"/>
           <xs:element name="Description" type="xs:string" minOccurs="0"/>
         </xs:sequence>
       </xs:complexType>
@@ -1568,6 +1587,7 @@
           <xs:enumeration value="PROTECTION_FROM_FREEZING"/>
           <xs:enumeration value="REGIONAL_MALL_DELIVERY"/>
           <xs:enumeration value="REGIONAL_MALL_PICKUP"/>
+          <xs:enumeration value="RETURNS_CLEARANCE"/>
           <xs:enumeration value="RETURN_SHIPMENT"/>
           <xs:enumeration value="SATURDAY_DELIVERY"/>
           <xs:enumeration value="SATURDAY_PICKUP"/>
@@ -1943,7 +1963,7 @@
               <xs:documentation>Identifies a system or sub-system which performs an operation.</xs:documentation>
             </xs:annotation>
           </xs:element>
-          <xs:element name="Major" type="xs:int" fixed="5" minOccurs="1">
+          <xs:element name="Major" type="xs:int" fixed="6" minOccurs="1">
             <xs:annotation>
               <xs:documentation>Identifies the service business level.</xs:documentation>
             </xs:annotation>
@@ -1997,7 +2017,7 @@
   <binding name="PickupServiceSoapBinding" type="ns:PickupPortType">
     <s1:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
     <operation name="getPickupAvailability">
-      <s1:operation soapAction="getPickupAvailability" style="document"/>
+      <s1:operation soapAction="http://fedex.com/ws/pickup/v6/getPickupAvailability" style="document"/>
       <input>
         <s1:body use="literal"/>
       </input>
@@ -2006,7 +2026,7 @@
       </output>
     </operation>
     <operation name="createPickup">
-      <s1:operation soapAction="createPickup" style="document"/>
+      <s1:operation soapAction="http://fedex.com/ws/pickup/v6/createPickup" style="document"/>
       <input>
         <s1:body use="literal"/>
       </input>
@@ -2015,7 +2035,7 @@
       </output>
     </operation>
     <operation name="cancelPickup">
-      <s1:operation soapAction="cancelPickup" style="document"/>
+      <s1:operation soapAction="http://fedex.com/ws/pickup/v6/cancelPickup" style="document"/>
       <input>
         <s1:body use="literal"/>
       </input>
@@ -2026,7 +2046,7 @@
   </binding>
   <service name="PickupService">
     <port name="PickupServicePort" binding="ns:PickupServiceSoapBinding">
-      <s1:address location="https://wsbeta.fedex.com:443/web-services"/>
+      <s1:address location="https://ws.fedex.com:443/web-services"/>
     </port>
   </service>
 </definitions>

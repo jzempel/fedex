@@ -16,10 +16,10 @@ class TrackingService(BaseService):
     """Tracking service.
 
     :param configuration: API configuration.
-    :param wsdl_version: Default ``6``.
+    :param wsdl_version: Default ``8``.
     """
 
-    def __init__(self, configuration, wsdl_version=6):
+    def __init__(self, configuration, wsdl_version=8):
         super(TrackingService, self).__init__(configuration, "Track",
                 wsdl_version, "trck")
 
