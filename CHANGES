@@ -1,6 +1,11 @@
 Changelog
 ---------
 
+Version 0.3.1
+^^^^^^^^^^^^^
+
+* Support cross-platform WSDL file URL.
+
 Version 0.3
 ^^^^^^^^^^^
 

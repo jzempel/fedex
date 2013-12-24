@@ -10,6 +10,8 @@
 """
 
 from ConfigParser import NoOptionError, NoSectionError, SafeConfigParser
+from urllib import pathname2url
+from urlparse import urljoin
 import os
 
 
@@ -64,7 +66,7 @@ class FedexConfiguration(object):
             if wsdls == "beta":
                 wsdls_path = os.path.join(wsdls_path, "beta")
 
-            self.wsdls = "file://{0}".format(wsdls_path)
+            self.wsdls = urljoin("file:", pathname2url(wsdls_path))
 
         assert self.key
         assert self.password
