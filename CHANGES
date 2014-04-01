@@ -1,6 +1,11 @@
 Changelog
 ---------
 
+Version 0.3.2
+^^^^^^^^^^^^^
+
+* Mapped xs:decimal to custom XDecimal type.
+
 Version 0.3.1
 ^^^^^^^^^^^^^
 

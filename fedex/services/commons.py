@@ -9,8 +9,11 @@
     :license: BSD, see LICENSE for more details.
 """
 
+from decimal import Decimal
 from logging import getLogger
 from suds.client import Client
+from suds.xsd.sxbase import XBuiltin
+from suds.xsd.sxbuiltin import Factory
 import os
 
 
@@ -24,6 +27,7 @@ class BaseService(object):
     """
 
     def __init__(self, configuration, wsdl_name, wsdl_version, service_id):
+        Factory.maptag("decimal", XDecimal)
         name = "{0}Service_v{1:d}.wsdl".format(wsdl_name, wsdl_version)
         wsdl = os.path.join(configuration.wsdls, name)
         self.client = Client(wsdl)
@@ -67,3 +71,28 @@ class BaseService(object):
         :param wsdl_type: The WSDL type to create an object for.
         """
         return self.client.factory.create(wsdl_type)
+
+
+class XDecimal(XBuiltin):
+    """Represents an XSD decimal type.
+    """
+
+    def translate(self, value, topython=True):
+        """Translate between string and decimal values.
+
+        :param value: The value to translate.
+        :param topython: Default `True`. Determine whether to translate the
+            value for python.
+        """
+        if topython:
+            if isinstance(value, basestring) and len(value):
+                ret_val = Decimal(value)
+            else:
+                ret_val = None
+        else:
+            if isinstance(value, (int, float, Decimal)):
+                ret_val = str(value)
+            else:
+                ret_val = value
+
+        return ret_val
