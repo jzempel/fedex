@@ -31,7 +31,7 @@ def dependency_links():
     Different dependency_links for Python 2 and Python 3
     """
     if PY3:
-        return None
+        return []
     return ["https://github.com/nemith/suds/tarball/master#egg=suds-0.4.1"]
 
 

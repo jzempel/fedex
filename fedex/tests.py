@@ -109,7 +109,7 @@ class FedexTestCase(TestCase):
         address = service.create_address()
         set_to_address(address.Address)
         result = service.validate([address])
-        print result
+        print(result)
 
     def test_rate_service(self):
         """Test the rate service.
@@ -121,7 +121,7 @@ class FedexTestCase(TestCase):
         set_package(package)
         set_shipment(shipment, package)
         result = service.get_rates(shipment)
-        print result
+        print(result)
 
     def test_shipment_service(self):
         """Test the shipment service.
@@ -134,7 +134,7 @@ class FedexTestCase(TestCase):
         set_package(package)
         set_shipment(shipment, package)
         result = service.process(shipment)
-        print result
+        print(result)
         details = result.CompletedShipmentDetail.CompletedPackageDetails[0]
         image = details.Label.Parts[0].Image
         binary = a2b_base64(image)
@@ -148,7 +148,7 @@ class FedexTestCase(TestCase):
 
         tracking_id = details.TrackingIds[0]
         result = service.delete(tracking_id)
-        print result
+        print(result)
 
     def test_tracking_service(self):
         """Test the tracking service.
@@ -158,7 +158,7 @@ class FedexTestCase(TestCase):
         package_id.Type = "TRACKING_NUMBER_OR_DOORTAG"
         package_id.Value = "800026015050023"
         result = service.track(package_id)
-        print result
+        print(result)
 
     def test_fedex_service(self):
         """Test the fedex service.
@@ -168,7 +168,7 @@ class FedexTestCase(TestCase):
         address = service.address_service.create_address()
         set_to_address(address.Address)
         result = service.get_addresses([address])
-        print result
+        print(result)
         # Rates
         shipment = service.rate_service.create_shipment()
         package = service.rate_service.create_package()
@@ -176,7 +176,7 @@ class FedexTestCase(TestCase):
         set_package(package)
         set_shipment(shipment, package)
         result = service.get_rates(shipment)
-        print result
+        print(result)
         # Shipments
         shipment = service.shipment_service.create_shipment()
         shipment.ShipTimestamp = datetime.now()
@@ -185,14 +185,14 @@ class FedexTestCase(TestCase):
         set_package(package)
         set_shipment(shipment, package)
         result = service.get_shipment(shipment)
-        print result
+        print(result)
         tracking_id = result.CompletedShipmentDetail.\
             CompletedPackageDetails[0].TrackingIds[0]
         result = service.remove_shipment(tracking_id)
-        print result
+        print(result)
         # Tracking
         package_id = service.tracking_service.create_package_id()
         package_id.Type = "TRACKING_NUMBER_OR_DOORTAG"
         package_id.Value = tracking_id.TrackingNumber
         result = service.get_tracking(package_id)
-        print result
+        print(result)
