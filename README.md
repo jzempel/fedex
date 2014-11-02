@@ -1,8 +1,7 @@
-FedEx API for Python
+# FedEx API for Python
 
 
-The Idea
-========
+## The Idea
 
 The bad news is that your organization probably doesn't care that FedEx's API
 is bundled via big SOAP-based web services (a.k.a. "IBM made me do it"). The
@@ -17,39 +16,34 @@ exercise for the consumer to hide any syntatical weirdness by extending this API
 as desired.
 
 
-The Installation
-================
+## The Installation
 
 Simple with pip
 
-$ pip install fedex.py
+```
+pip install fedex.py
+```
 
 Easy with setuptools (but use pip):
 
-$ easy_install fedex.py
+```
+easy_install fedex.py
+```
 
+## The Interface
 
-The Interface
-=============
-
-The fedex.services.FedexService class is a convenience wrapper around FedEx
+The `fedex.services.FedexService` class is a convenience wrapper around FedEx
 address, rate, shipment, and tracking services. The API layout essentially
 associates one service per WSDL. You could easily add additional services
 (i.e. PackageMovement, Pickup, ReturnTag, etc.) using the same approach by
-extending fedex.services.commons.BaseService. The root FedexService methods
+extending `fedex.services.commons.BaseService`. The root FedexService methods
 are:
 
-get_addresses
-    Get a list of validated shipping addresses.
+| Method | Description |
+| ------ | ----------- |
+|`get_adresses`|Get a list of validated shipping addresses|
+|`get_rates`|Get available rates for a given shipment|
+|`get_shipment`|Process a shipment|
+|`get_tracking`|Get tracking information for a given package ID|
+|`remove_shipment`|Cancel a processed shipment|
 
-get_rates
-    Get available rates for a given shipment.
-
-get_shipment
-    Process a shipment.
-
-get_tracking
-    Get tracking information for a given package ID.
-
-remove_shipment
-    Cancel a processed shipment.
