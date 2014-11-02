@@ -8,10 +8,15 @@
     :copyright: 2014 by Jonathan Zempel.
     :license: BSD, see LICENSE for more details.
 """
-
-from ConfigParser import NoOptionError, NoSectionError, SafeConfigParser
-from urllib import pathname2url
-from urlparse import urljoin
+import six
+if six.PY2:
+    from ConfigParser import NoOptionError, NoSectionError, SafeConfigParser
+    from urllib import pathname2url
+    from urlparse import urljoin
+else:
+    from configparser import NoOptionError, NoSectionError, SafeConfigParser
+    from urllib.request import pathname2url
+    from urllib.parse import urljoin
 import os
 
 

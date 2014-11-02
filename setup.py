@@ -22,9 +22,11 @@ def install_requires():
     """
     Different install_requires for Python 2 and Python 3
     """
+    requirements = ["six==1.8.0"]
     if PY3:
-        return ["suds-py3==1.0.0.0"]
-    return ["suds==0.4.1"]
+        requirements.append("suds-py3==1.0.0.0")
+    else:
+        requirements.append("suds==0.4.1")
 
 def dependency_links():
     """
