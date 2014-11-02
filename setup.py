@@ -12,6 +12,28 @@
 
 from setuptools import setup
 import fedex
+import sys
+
+
+PY3 = (sys.version_info[0] >= 3)
+
+
+def install_requires():
+    """
+    Different install_requires for Python 2 and Python 3
+    """
+    if PY3:
+        return ["suds-py3==1.0.0.0"]
+    return ["suds==0.4.1"]
+
+def dependency_links():
+    """
+    Different dependency_links for Python 2 and Python 3
+    """
+    if PY3:
+        return None
+    return ["https://github.com/nemith/suds/tarball/master#egg=suds-0.4.1"]
+
 
 setup(
     name="fedex.py",
@@ -25,7 +47,8 @@ setup(
     packages=["fedex"],
     package_data={"fedex": ["wsdls/*.wsdl"]},
     include_package_data=True,
-    install_requires=["suds==0.4.1"],
-    dependency_links=["https://github.com/nemith/suds/tarball/master#egg=suds-0.4.1"],  # NOQA
+    install_requires=install_requires(),
+    dependency_links=dependency_links(),  # NOQA
     test_suite="fedex.tests"
 )
+
