@@ -8,7 +8,8 @@
     :copyright: 2014 by Jonathan Zempel.
     :license: BSD, see LICENSE for more details.
 """
-from six.moves.configparser import NoOptionError, NoSectionError, SafeConfigParser
+from six.moves.configparser import (NoOptionError, NoSectionError,
+        SafeConfigParser)
 from six.moves.urllib.request import pathname2url
 from six.moves.urllib.parse import urljoin
 import os
