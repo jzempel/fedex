@@ -1,6 +1,11 @@
 Changelog
 ---------
 
+Version 0.4
+~~~~~~~~~~~
+
+* Added support for Python 3.
+
 Version 0.3.2
 ^^^^^^^^^^^^^
 

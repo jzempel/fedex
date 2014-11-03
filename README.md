@@ -18,16 +18,16 @@ as desired.
 
 ## The Installation
 
-Simple with pip
+Simple with pip:
 
 ```
-pip install fedex.py
+$ pip install fedex.py
 ```
 
 Easy with setuptools (but use pip):
 
 ```
-easy_install fedex.py
+$ easy_install fedex.py
 ```
 
 ## The Interface
@@ -41,9 +41,8 @@ are:
 
 | Method | Description |
 | ------ | ----------- |
-|`get_adresses`|Get a list of validated shipping addresses|
+|`get_addresses`|Get a list of validated shipping addresses|
 |`get_rates`|Get available rates for a given shipment|
 |`get_shipment`|Process a shipment|
 |`get_tracking`|Get tracking information for a given package ID|
 |`remove_shipment`|Cancel a processed shipment|
-
