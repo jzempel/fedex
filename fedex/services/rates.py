@@ -16,10 +16,10 @@ class RateService(BaseService):
     """Rate service.
 
     :param configuration: API configuration.
-    :param wsdl_version: Default ``14``.
+    :param wsdl_version: Default ``18``.
     """
 
-    def __init__(self, configuration, wsdl_version=14):
+    def __init__(self, configuration, wsdl_version=18):
         super(RateService, self).__init__(configuration, "Rate", wsdl_version,
                 "crs")
 

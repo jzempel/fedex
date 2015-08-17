@@ -28,14 +28,14 @@ class FedexService(BaseService):
         self.shipment_service = ShipmentService(configuration)
         self.tracking_service = TrackingService(configuration)
 
-    def get_addresses(self, addresses, options=None):
+    def get_addresses(self, addresses, **kwargs):
         """Get a list of addresses.
 
         :param addresses: A list of addresses to get valid shipping addresses
             for.
-        :param options: Default `None`. Address validation options.
+        :param kwargs: Additional service keyword arguments.
         """
-        return self.address_service.validate(addresses, options)
+        return self.address_service.validate(addresses, **kwargs)
 
     def get_rates(self, shipment, **kwargs):
         """Get shipment rates.
@@ -52,13 +52,13 @@ class FedexService(BaseService):
         """
         return self.shipment_service.process(shipment)
 
-    def get_tracking(self, package_id, **kwargs):
+    def get_tracking(self, selection_details, **kwargs):
         """Get package tracking.
 
-        :param package_id: Package ID to track.
+        :param selection_details: Details to select the package to track.
         :param kwargs: Additional service keyword arguments.
         """
-        return self.tracking_service.track(package_id, **kwargs)
+        return self.tracking_service.track(selection_details, **kwargs)
 
     def remove_shipment(self, tracking_id):
         """Remove a processed shipment.

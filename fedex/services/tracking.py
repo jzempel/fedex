@@ -16,24 +16,24 @@ class TrackingService(BaseService):
     """Tracking service.
 
     :param configuration: API configuration.
-    :param wsdl_version: Default ``8``.
+    :param wsdl_version: Default ``10``.
     """
 
-    def __init__(self, configuration, wsdl_version=8):
+    def __init__(self, configuration, wsdl_version=10):
         super(TrackingService, self).__init__(configuration, "Track",
                 wsdl_version, "trck")
 
-    def create_package_id(self):
-        """Create a new package ID object.
+    def create_selection_details(self):
+        """Create a new selection details object.
         """
-        return self.create("TrackPackageIdentifier")
+        return self.create("TrackSelectionDetail")
 
-    def track(self, package_id, **kwargs):
+    def track(self, selection_details, **kwargs):
         """Track a package.
 
-        :param package_id: ID of the package to track.
+        :param selection_details: Details to select the package to track.
         :param kwargs: Additional service keyword arguments.
         """
-        kwargs["PackageIdentifier"] = package_id
+        kwargs["SelectionDetails"] = selection_details
 
         return self.call("track", **kwargs)

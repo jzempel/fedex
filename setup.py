@@ -25,7 +25,6 @@ setup(
     packages=["fedex"],
     package_data={"fedex": ["wsdls/*.wsdl"]},
     include_package_data=True,
-    install_requires=["suds==0.4.1"],
-    dependency_links=["https://github.com/nemith/suds/tarball/master#egg=suds-0.4.1"],  # NOQA
+    install_requires=["suds-jurko"],
     test_suite="fedex.tests"
 )

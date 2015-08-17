@@ -52,6 +52,7 @@ def set_label(label):
     label.LabelFormatType = "COMMON2D"
     label.LabelStockType = "PAPER_4X6"
     label.LabelPrintingOrientation = "TOP_EDGE_OF_TEXT_FIRST"
+    label.LabelOrder = "SHIPPING_LABEL_FIRST"
     label.ImageType = "PNG"
 
 
@@ -63,6 +64,17 @@ def set_package(package):
     package.PhysicalPackaging = "BOX"
     package.Weight.Value = 1.0
     package.Weight.Units = "LB"
+
+
+def set_selection_details(selection_details):
+    """Set test selection details.
+
+    :param selection_details: The tracking selection details to populate.
+    """
+    selection_details.CarrierCode = "FDXG"
+    selection_details.OperatingCompany = "FEDEX_GROUND"
+    selection_details.PackageIdentifier.Type = "TRACKING_NUMBER_OR_DOORTAG"
+    selection_details.PackageIdentifier.Value = "800026015050023"
 
 
 def set_shipment(shipment, package):
@@ -80,7 +92,7 @@ def set_shipment(shipment, package):
     shipment.Recipient.Contact.PersonName = "POTUS"
     shipment.Recipient.Contact.PhoneNumber = "1234567890"
     set_to_address(shipment.Recipient.Address)
-    shipment.RateRequestTypes = ["ACCOUNT"]
+    shipment.RateRequestTypes = ["NONE"]
     shipment.RequestedPackageLineItems.append(package)
     shipment.PackageCount = len(shipment.RequestedPackageLineItems)
     shipment.ShippingChargesPayment.PaymentType = "SENDER"
@@ -154,10 +166,9 @@ class FedexTestCase(TestCase):
         """Test the tracking service.
         """
         service = TrackingService(CONFIGURATION)
-        package_id = service.create_package_id()
-        package_id.Type = "TRACKING_NUMBER_OR_DOORTAG"
-        package_id.Value = "800026015050023"
-        result = service.track(package_id)
+        selection_details = service.create_selection_details()
+        set_selection_details(selection_details)
+        result = service.track(selection_details)
         print result
 
     def test_fedex_service(self):
@@ -191,8 +202,8 @@ class FedexTestCase(TestCase):
         result = service.remove_shipment(tracking_id)
         print result
         # Tracking
-        package_id = service.tracking_service.create_package_id()
-        package_id.Type = "TRACKING_NUMBER_OR_DOORTAG"
-        package_id.Value = tracking_id.TrackingNumber
-        result = service.get_tracking(package_id)
+        selection_details = service.tracking_service.create_selection_details()
+        set_selection_details(selection_details)
+        selection_details.PackageIdentifier.Value = tracking_id.TrackingNumber
+        result = service.get_tracking(selection_details)
         print result
