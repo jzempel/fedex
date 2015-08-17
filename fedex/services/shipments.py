@@ -16,10 +16,10 @@ class ShipmentService(BaseService):
     """Shipment service.
 
     :param configuration: API configuration.
-    :param wsdl_version: Default ``13``.
+    :param wsdl_version: Default ``17``.
     """
 
-    def __init__(self, configuration, wsdl_version=13):
+    def __init__(self, configuration, wsdl_version=17):
         super(ShipmentService, self).__init__(configuration, "Ship",
                 wsdl_version, "ship")
 

@@ -1,6 +1,12 @@
 Changelog
 ---------
 
+Version 1.0.0
+^^^^^^^^^^^^^
+
+* Updated WSDLs.
+* Required suds-jurko.
+
 Version 0.3.2
 ^^^^^^^^^^^^^
 
@@ -14,7 +20,7 @@ Version 0.3.1
 Version 0.3
 ^^^^^^^^^^^
 
-* Updated WSLDs.
+* Updated WSDLs.
 
 Version 0.2
 ^^^^^^^^^^^

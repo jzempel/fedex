@@ -10,17 +10,16 @@
 """
 
 from .commons import BaseService
-from datetime import datetime
 
 
 class AddressService(BaseService):
     """Address service.
 
     :param configuration: API configuration.
-    :param wsdl_version: Default ``2``.
+    :param wsdl_version: Default ``4``.
     """
 
-    def __init__(self, configuration, wsdl_version=2):
+    def __init__(self, configuration, wsdl_version=4):
         super(AddressService, self).__init__(configuration,
                 "AddressValidation", wsdl_version, "aval")
 
@@ -29,16 +28,12 @@ class AddressService(BaseService):
         """
         return self.create("AddressToValidate")
 
-    def create_options(self):
-        """Create a new address validation options object.
-        """
-        return self.create("AddressValidationOptions")
-
-    def validate(self, addresses, options=None):
+    def validate(self, addresses, **kwargs):
         """Validate a list of addresses.
 
         :param addresses: A list of addresses to validate.
-        :param options: Default `None`. Address validation options.
+        :param kwargs: Additional service keyword arguments.
         """
-        return self.call("addressValidation", RequestTimestamp=datetime.now(),
-                AddressesToValidate=addresses, Options=options)
+        kwargs["AddressesToValidate"] = addresses
+
+        return self.call("addressValidation", **kwargs)
